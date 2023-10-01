@@ -1,0 +1,60 @@
+{
+  "name": "insert-line-custom-text",
+  "displayName": "Insert Line Custom Text",
+  "description": "insert a new line into the document, using custom text",
+  "version": "0.0.1",
+  "icon": "icon.jpg",
+  "publisher": "zzk13180",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zzk13180/insert-line-custom-text"
+  },
+  "enabledApiProposals": [
+    "onCommand:extension.insert-line-custom-text"
+  ],
+  "engines": {
+    "vscode": "^1.77.0"
+  },
+  "categories": [
+    "Other",
+    "Snippets"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "insert-line-custom-text.insert",
+        "title": "Insert Line Custom Text"
+      }
+    ],
+    "keybindings": [
+      {
+        "key": "shift+space",
+        "mac": "shift+space",
+        "command": "insert-line-custom-text.insert",
+        "when": "editorTextFocus && !editorReadonly"
+      }
+    ],
+    "configuration": {
+      "properties": {
+        "insert-line-custom-text.text": {
+          "type": "string",
+          "default": "console.log('{}', {})"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^16.18.34",
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+    "@typescript-eslint/parser": "^6.7.0",
+    "eslint": "^8.26.0",
+    "typescript": "^5.2.2",
+    "vscode-dts": "^0.3.3"
+  }
+}
