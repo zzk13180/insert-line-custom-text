@@ -11,9 +11,6 @@
     "type": "git",
     "url": "https://github.com/zzk13180/insert-line-custom-text"
   },
-  "enabledApiProposals": [
-    "onCommand:extension.insert-line-custom-text"
-  ],
   "engines": {
     "vscode": "^1.77.0"
   },
