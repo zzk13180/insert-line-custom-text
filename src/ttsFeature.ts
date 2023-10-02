@@ -122,6 +122,26 @@ class TtsController {
 
 let ttsController: TtsController | null = null;
 
+/**
+ * Extract the first column (word) from a CSV line
+ * Example: "word","translation" -> "word"
+ */
+function extractFirstCsvColumn(line: string): string | null {
+  // Match the first quoted field
+  const match = line.match(/^"([^"]*)"(?:,|$)/);
+  if (match) {
+    return match[1].trim();
+  }
+  
+  // Fallback: split by comma and take first part
+  const parts = line.split(",");
+  if (parts.length > 0) {
+    return parts[0].replace(/^"|"$/g, "").trim();
+  }
+  
+  return null;
+}
+
 export function activateTTS(context: vscode.ExtensionContext) {
   console.log("TTS: Activating TTS feature");
   ttsController = new TtsController();
@@ -133,23 +153,54 @@ export function activateTTS(context: vscode.ExtensionContext) {
       }
 
       const editor = event.textEditor;
-      if (!editor || editor.document.languageId !== "markdown") {
+      if (!editor) {
         ttsController.stop();
         return;
       }
 
-      const selection = editor.selection;
-      if (selection.isEmpty) {
-        ttsController.resetLastText();
+      const languageId = editor.document.languageId;
+      const isCsv = languageId === "csv" || editor.document.fileName.endsWith(".csv");
+
+      // Handle Markdown files (original behavior)
+      if (languageId === "markdown") {
+        const selection = editor.selection;
+        if (selection.isEmpty) {
+          ttsController.resetLastText();
+          return;
+        }
+
+        const selectedText = editor.document.getText(selection).trim();
+        if (!selectedText) {
+          return;
+        }
+
+        ttsController.scheduleSpeak(selectedText);
         return;
       }
 
-      const selectedText = editor.document.getText(selection).trim();
-      if (!selectedText) {
+      // Handle CSV files (new behavior)
+      if (isCsv) {
+        const line = editor.selection.active.line;
+        const lineText = editor.document.lineAt(line).text.trim();
+        
+        // Skip empty lines or header line
+        if (!lineText || lineText === '"word","translation"') {
+          ttsController.resetLastText();
+          return;
+        }
+
+        // Extract first column (word) from CSV format
+        const firstWord = extractFirstCsvColumn(lineText);
+        if (firstWord) {
+          ttsController.scheduleSpeak(firstWord);
+        } else {
+          ttsController.resetLastText();
+        }
         return;
       }
 
-      ttsController.scheduleSpeak(selectedText);
+      // Stop TTS for other file types
+      ttsController.stop();
     });
 
   const activeEditorChangeDisposable =
@@ -158,7 +209,15 @@ export function activateTTS(context: vscode.ExtensionContext) {
         return;
       }
 
-      if (!editor || editor.document.languageId !== "markdown") {
+      if (!editor) {
+        ttsController.stop();
+        return;
+      }
+
+      const languageId = editor.document.languageId;
+      const isCsv = languageId === "csv" || editor.document.fileName.endsWith(".csv");
+      
+      if (languageId !== "markdown" && !isCsv) {
         ttsController.stop();
       }
     });

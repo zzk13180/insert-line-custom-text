@@ -2,7 +2,7 @@
   "name": "insert-line-custom-text",
   "displayName": "Insert Line Custom Text",
   "description": "insert a new line into the document, using custom text",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "icon": "icon.png",
   "publisher": "zzk13180",
   "private": true,
@@ -19,7 +19,9 @@
     "Snippets"
   ],
   "activationEvents": [
-    "onLanguage:markdown"
+    "onLanguage:markdown",
+    "onLanguage:csv",
+    "onLanguage:plaintext"
   ],
   "main": "./out/extension.js",
   "contributes": {

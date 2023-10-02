@@ -4,7 +4,7 @@
 
 - **Smart Insertion**: Quickly generate and insert code on the next line based on selected text (e.g., `console.log`).
 - **Highly Customizable**: Supports custom text templates using `{}` as flexible placeholders.
-- **TTS Reading**: Automatically reads selected English text in Markdown files (macOS exclusive).
+- **TTS Reading**: Automatically reads selected English text in Markdown and CSV files (macOS exclusive).
 
 ## Usage Guide
 
@@ -46,15 +46,23 @@ You can customize the insertion text template by modifying VS Code settings.
 
 ![example](https://cdn.zhangzhankui.com/insert-line-custom-text.gif)
 
-### 2. Markdown English TTS (Text-to-Speech)
+### 2. English TTS (Text-to-Speech)
 
 This is an auxiliary feature for learning and reading, effective only on **macOS**.
 
+#### Markdown Files
 - **How to Trigger**: In a `.md` (Markdown) file, select a piece of English text (word, phrase, or sentence) with the mouse.
 - **Effect**: The system will automatically call the macOS `say` command to read the selected content.
+
+#### CSV Files
+- **How to Trigger**: In a `.csv` file, move the cursor to any line.
+- **Effect**: The system will automatically read the first column (word) of the current line.
+- **CSV Format**: Supports standard CSV format, e.g., `"word","translation"`.
+
+#### Common
 - **Stop Reading**: If you want to stop midway, you can run the command `Stop TTS`.
 
-Note: This feature automatically filters non-English content and is only active in Markdown files.
+Note: This feature automatically filters non-English content.
 
 ## Development & Installation Guide
 

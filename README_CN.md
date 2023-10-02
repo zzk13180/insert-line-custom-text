@@ -4,7 +4,7 @@
 
 - 智能插入：根据选中文本快速生成并插入下一行代码（如 `console.log`）。
 - 高度自定义：支持自定义文本模板，使用 `{}` 作为灵活的占位符。
-- TTS 朗读：在 Markdown 文件中选中英文时自动朗读（macOS 独占）。
+- TTS 朗读：在 Markdown 和 CSV 文件中自动朗读英文（macOS 独占）。
 
 ## 使用指南
 
@@ -46,15 +46,23 @@ console.log('userName', userName); // 自动插入这一行
 
 ![example](https://cdn.zhangzhankui.com/insert-line-custom-text.gif)
 
-### 2. Markdown 英文朗读 (TTS)
+### 2. 英文朗读 (TTS)
 
 这是一个辅助学习和阅读的功能，仅在 **macOS** 系统下生效。
 
+#### Markdown 文件
 - 如何触发：在 `.md` (Markdown) 文件中，用鼠标选中一段英文文本（支持单词、短语或句子）。
 - 效果：系统会自动调用 macOS 的 `say` 命令朗读选中的内容。
+
+#### CSV 文件
+- 如何触发：在 `.csv` 文件中，将光标移动到任意行。
+- 效果：系统会自动朗读当前行的第一列（单词）。
+- CSV 格式：支持标准 CSV 格式，例如 `"word","translation"`。
+
+#### 通用
 - 停止朗读：如果想中途停止，可以运行命令 `Stop TTS`。
 
-注意：此功能会自动过滤非英文内容，且仅在 Markdown 文件中激活。
+注意：此功能会自动过滤非英文内容。
 
 ## 开发与安装指南
 
